@@ -1,0 +1,20 @@
+# ---- Python 运行产物 ----
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+
+# ---- 运行时用户数据（含上传音频与设备标识，绝不入库）----
+music2score/data/uploads/
+music2score/data/license.json
+music2score/data/cookies.txt          # 若放了站点 Cookie（登录凭据）
+
+# ---- 评测素材：MIR-1K 数据集仅限学术使用，禁止再分发 ----
+music2score/data/real/
+
+# ---- 开发期输出物（截图/临时谱面/评测产物）----
+music2score/data/out/
+
+# ---- 本地工作助手目录 ----
+.workbuddy/

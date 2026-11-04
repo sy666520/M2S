@@ -1,0 +1,17 @@
+{
+  "_comment": "把原生安装包的真实地址填进来，安装页会自动出现对应下载按钮。available 改为 true 即启用。",
+  "android": {
+    "available": false,
+    "apk_url": "",
+    "version": "",
+    "size": "",
+    "note": "安卓目前走 PWA 安装（添加到主屏幕即可全屏使用）。打包出 APK 后，把 apk_url 填到这里并置 available 为 true。"
+  },
+  "ios": {
+    "available": false,
+    "appstore_url": "",
+    "testflight_url": "",
+    "version": "",
+    "note": "iOS 通过 Safari「添加到主屏幕」安装。上架 App Store 或 TestFlight 后，把链接填到这里并置 available 为 true。"
+  }
+}

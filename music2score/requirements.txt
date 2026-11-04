@@ -1,0 +1,27 @@
+# 核心依赖（Python 3.10+）
+fastapi
+uvicorn
+numpy
+scipy
+librosa
+soundfile
+imageio-ffmpeg
+verovio
+mido
+qrcode
+pillow
+
+# 音高识别（CREPE 神经网络）
+torch
+torchcrepe
+
+# 完整歌曲模式：先做音源分离再转谱
+demucs
+
+# 链接导入（B站 / YouTube / 快手 等；抖音还需要 playwright，见 README）
+yt-dlp
+
+# 可选：多声部识别（钢琴/合奏，约 500MB）
+# basic-pitch
+# 可选：抖音链接一键提取
+# playwright  （装完执行：playwright install chromium）

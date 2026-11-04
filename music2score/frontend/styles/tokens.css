@@ -1,0 +1,77 @@
+/* ============================================================
+   设计令牌
+   方向：暗色工作台 + 米白纸张。谱面是"纸"，外围是"暗房"。
+   展示字 Playfair Display（本地）+ 中文系统衬线；正文中文系统无衬线。
+   唯一强调色：朱砂琥珀 --accent，只用于"开始转谱"这类关键动作。
+   ============================================================ */
+:root {
+  /* —— 色彩：暖黑工作台 —— */
+  --color-bg: #14120f;
+  --color-surface: #1b1815;
+  --color-surface-2: #221e19;
+  --color-surface-3: #2b2620;
+  --color-text: #f2ece1;
+  --color-text-dim: #cfc6b6;
+  --color-muted: #928878;
+  --color-border: rgba(242, 236, 225, 0.11);
+  --color-border-strong: rgba(242, 236, 225, 0.2);
+
+  /* —— 色彩：纸张 —— */
+  --color-paper: #f7f3e9;
+  --color-paper-edge: #e8e1d1;
+  --color-ink: #211e18;
+  --color-ink-soft: #5d564a;
+
+  /* —— 语义色 —— */
+  --color-accent: #d9743a;
+  --color-accent-ink: #b95a25;
+  --color-accent-soft: rgba(217, 116, 58, 0.14);
+  --color-ok: #7d9a6f;
+  --color-warn: #c9a227;
+  --color-error: #cf5f4a;
+
+  /* —— 字体 —— */
+  --font-display: "Playfair Display", "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", Georgia, serif;
+  --font-body: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+
+  /* —— 字阶（1.25）—— */
+  --fs-100: 0.75rem;
+  --fs-200: 0.875rem;
+  --fs-300: 1rem;
+  --fs-400: 1.25rem;
+  --fs-500: 1.5625rem;
+  --fs-600: 1.953rem;
+  --fs-700: 2.441rem;
+  --lh-tight: 1.06;
+  --lh-body: 1.7;
+
+  /* —— 间距 —— */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --space-7: 96px;
+
+  /* —— 圆角 —— */
+  --radius-sm: 3px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  /* —— 阴影（带环境色，非纯黑）—— */
+  --shadow-1: 0 2px 8px rgba(8, 6, 4, 0.35);
+  --shadow-2: 0 8px 28px rgba(8, 6, 4, 0.45);
+  --shadow-3: 0 24px 64px rgba(8, 6, 4, 0.55);
+  --shadow-paper: 0 18px 48px rgba(8, 6, 4, 0.5), 0 2px 0 rgba(242, 236, 225, 0.06);
+
+  /* —— 动效 —— */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 160ms;
+  --dur-base: 320ms;
+  --dur-slow: 640ms;
+
+  /* 谱面缩放（由滑块控制） */
+  --zoom: 1;
+}

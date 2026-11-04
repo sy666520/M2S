@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "note": "示例推广位素材。上线前把 title/desc/url 换成你自己谈的广告主，或换成自家产品的推广。图片放到 desktop/ads/ 目录，image 写相对路径 ads/xxx.png 或完整 URL；不填 image 时前端用文字卡样式展示。action=activate 表示点击后打开激活面板，action=open 表示打开 url。",
+  "items": [
+    {
+      "id": "demo-chord-card",
+      "slot": "unlock",
+      "title": "吉他常用和弦指法卡",
+      "desc": "24 个调式 × 8 种常用和弦，A4 打印版，可直接贴琴包",
+      "cta": "免费领取",
+      "action": "open",
+      "url": "https://example.com/chord-card",
+      "weight": 10,
+      "active": true
+    },
+    {
+      "id": "demo-notation-shop",
+      "slot": "banner",
+      "title": "正版乐谱打印装订",
+      "desc": "转好的谱子可一键下单打印，A4 双面胶装，全国包邮",
+      "cta": "看看价格",
+      "action": "open",
+      "url": "https://example.com/print",
+      "weight": 8,
+      "active": true
+    },
+    {
+      "id": "house-pro",
+      "slot": "unlock",
+      "title": "解锁不限次转谱",
+      "desc": "一次买断，永久使用，不再受每日额度限制",
+      "cta": "输入激活码",
+      "action": "activate",
+      "weight": 6,
+      "active": true
+    }
+  ]
+}

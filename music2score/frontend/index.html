@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>music2score · 上传音乐，自动转成乐谱</title>
+<meta name="description" content="上传一段音乐，自动识别旋律并生成五线谱、简谱与吉他六线谱。">
+<meta name="theme-color" content="#14120f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="m2score">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="styles/fonts.css">
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+
+<header class="topbar reveal">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">m2s</span>
+    <div>
+      <h1>music2score</h1>
+      <p class="brand-sub">音频 · 自动转谱工作台</p>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <button type="button" class="chip chip-quota" id="quotaChip" title="查看剩余次数 / 激活买断版">
+      额度 —
+    </button>
+    <span class="chip" id="engineChip">引擎 —</span>
+    <a class="chip chip-link" href="/install" title="安装到手机">手机版安装</a>
+    <span class="chip">五线谱 / 简谱 / 六线谱</span>
+  </div>
+</header>
+
+<main class="workspace">
+
+  <!-- ============ 左栏：操作 ============ -->
+  <aside class="panel" aria-label="转谱操作">
+
+    <section class="block reveal" data-delay="1" aria-labelledby="t-upload">
+      <h2 class="block-title" id="t-upload">音频来源</h2>
+
+      <div class="source-switch" role="tablist" aria-label="音频来源方式">
+        <button type="button" class="source-btn is-on" role="tab"
+                aria-selected="true" data-source="file">本地上传</button>
+        <button type="button" class="source-btn" role="tab"
+                aria-selected="false" data-source="url">链接导入</button>
+      </div>
+
+      <div id="sourceFile">
+        <div class="dropzone" id="dropzone" tabindex="0" role="button"
+             aria-describedby="dzHint">
+          <span class="dropzone-glyph" aria-hidden="true">♪</span>
+          <p class="dropzone-text">拖入音频，或点击选择</p>
+          <p class="dropzone-hint" id="dzHint">支持 mp3 / wav / m4a / flac / ogg</p>
+        </div>
+        <input type="file" id="fileInput" accept="audio/*,.mp3,.wav,.m4a,.flac,.ogg" class="sr-only">
+        <div class="file-line">
+          <span class="name" id="fileName">尚未选择文件</span>
+          <button type="button" class="btn btn-sm" id="clearFile" hidden>清除</button>
+        </div>
+      </div>
+
+      <div id="sourceUrl" hidden>
+        <label class="sr-only" for="urlInput">视频链接</label>
+        <input class="control" id="urlInput" type="text" inputmode="url"
+               autocomplete="off" spellcheck="false"
+               placeholder="粘贴抖音 / B站 / YouTube 链接">
+        <p class="field-hint" id="urlHint">
+          抖音链接会自动打开页面取音轨（约 10 秒），其余站点直接解析下载。
+        </p>
+        <div class="platform-chips" id="platformChips" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section class="block reveal" data-delay="2" aria-labelledby="t-param">
+      <h2 class="block-title" id="t-param">识别参数</h2>
+      <div class="field">
+        <label for="engineSelect">识别引擎</label>
+        <select class="control" id="engineSelect"></select>
+        <p class="field-hint" id="engineHint" hidden></p>
+      </div>
+      <div class="field">
+        <label for="meterSelect">拍号</label>
+        <select class="control" id="meterSelect">
+          <option value="auto">自动判断</option>
+          <option value="4/4">4/4</option>
+          <option value="3/4">3/4</option>
+          <option value="2/4">2/4</option>
+          <option value="6/8">6/8</option>
+          <option value="3/8">3/8</option>
+          <option value="12/8">12/8</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="keySelect">调性</label>
+        <select class="control" id="keySelect">
+          <option value="auto">自动判断</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="titleInput">谱面标题（可选）</label>
+        <input class="control" id="titleInput" type="text" placeholder="留空则用文件名" maxlength="80">
+      </div>
+      <button type="button" class="btn btn-primary" id="runBtn" disabled>开始转谱</button>
+      <div class="progress-wrap" id="progressWrap" hidden>
+        <div class="progress"><i id="progressBar"></i></div>
+        <p class="progress-stage" id="progressStage">准备中…</p>
+      </div>
+    </section>
+
+    <section class="block reveal" data-delay="3" aria-labelledby="t-result">
+      <h2 class="block-title" id="t-result">识别结果</h2>
+      <div id="resultBody">
+        <p class="empty-note">还没有结果。转谱完成后，这里会显示调性、拍号、速度与音域。</p>
+      </div>
+    </section>
+
+    <section class="block reveal" data-delay="4" aria-labelledby="t-export">
+      <h2 class="block-title" id="t-export">试听与导出</h2>
+      <div class="btn-row">
+        <button type="button" class="btn" id="playSource" disabled>听原曲</button>
+        <button type="button" class="btn" id="playScore" disabled>听转出的谱</button>
+      </div>
+      <div class="btn-row" style="margin-top: var(--space-2)">
+        <button type="button" class="btn" id="stopPlay" disabled>停止</button>
+      </div>
+      <div class="btn-row" style="margin-top: var(--space-3)">
+        <button type="button" class="btn" id="dlMidi" disabled>导出 MIDI</button>
+        <button type="button" class="btn" id="dlXml" disabled>导出 MusicXML</button>
+      </div>
+      <p class="dropzone-hint" style="margin-top: var(--space-3)">
+        MusicXML 可直接用 MuseScore、Sibelius 打开再编辑。
+      </p>
+    </section>
+
+  </aside>
+
+  <!-- ============ 右栏：谱面舞台 ============ -->
+  <section class="stage reveal" data-delay="2" aria-label="谱面">
+    <div class="stage-head">
+      <div class="tabs" role="tablist" aria-label="谱面视图">
+        <button class="tab" role="tab" id="tab-staff" data-view="staff"
+                aria-selected="true" aria-controls="paper">五线谱</button>
+        <button class="tab" role="tab" id="tab-jianpu" data-view="jianpu"
+                aria-selected="false" aria-controls="paper">简谱</button>
+        <button class="tab" role="tab" id="tab-tab" data-view="tab"
+                aria-selected="false" aria-controls="paper">吉他六线谱</button>
+        <button class="tab" role="tab" id="tab-edit" data-view="edit"
+                aria-selected="false" aria-controls="paper">校对</button>
+      </div>
+      <div class="stage-tools">
+        <label class="tool-label" for="zoomRange">缩放</label>
+        <input class="zoom" id="zoomRange" type="range" min="0.6" max="2.2" step="0.1" value="1">
+        <span class="num" id="zoomVal" style="font-size: var(--fs-100); color: var(--color-muted)">1.0×</span>
+      </div>
+    </div>
+
+    <div class="paper" id="paper">
+      <div class="paper-empty" id="paperEmpty">
+        <div>
+          <div class="glyph" aria-hidden="true">𝄞</div>
+          <p class="txt">这里会铺开你的乐谱</p>
+          <p class="sub">先上传一段旋律清晰的音频 —— 清唱、钢琴独奏或单乐器都合适。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 底部推广条：常驻但不挡操作，可关闭；曝光/点击都会记账 -->
+<div class="sponsor-bar" id="sponsorBar" hidden>
+  <span class="sponsor-tag">推广</span>
+  <div class="sponsor-text">
+    <strong id="sponsorTitle"></strong>
+    <span id="sponsorDesc"></span>
+  </div>
+  <button type="button" class="sponsor-cta" id="sponsorCta">看看</button>
+  <button type="button" class="sponsor-close" id="sponsorClose" aria-label="关闭推广">×</button>
+</div>
+
+<!-- 额度用尽 -->
+<div class="modal-mask" id="gateMask" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <button type="button" class="modal-x" id="gateClose" aria-label="关闭">×</button>
+    <p class="modal-kicker">今日免费额度已用完</p>
+    <h2 class="modal-title" id="gateTitle">明天再来，或者现在就解开</h2>
+    <p class="modal-sub" id="gateSub">
+      每天免费 2 次。看一段 12 秒的推广再解锁 3 次，或输入激活码永久不限次。
+    </p>
+
+    <div class="gate-ad" id="gateAd"></div>
+
+    <div class="gate-progress" id="gateProgress" hidden>
+      <div class="bar"><i id="gateBar"></i></div>
+      <span id="gateCountdown">12 秒后可领取</span>
+    </div>
+
+    <div class="gate-actions">
+      <button type="button" class="btn btn-primary" id="gateWatch">看推广解锁 +3 次</button>
+      <button type="button" class="btn" id="gateActivate">输入激活码</button>
+    </div>
+    <p class="modal-note" id="gateNote"></p>
+  </div>
+</div>
+
+<!-- 激活买断 -->
+<div class="modal-mask" id="actMask" hidden>
+  <div class="modal modal-narrow" role="dialog" aria-modal="true" aria-labelledby="actTitle">
+    <button type="button" class="modal-x" id="actClose" aria-label="关闭">×</button>
+    <p class="modal-kicker">买断版</p>
+    <h2 class="modal-title" id="actTitle">输入激活码</h2>
+    <p class="modal-sub">一次买断，永久不限次转谱。激活完全离线校验，不需要联网、不需要账号。</p>
+
+    <input class="control act-input" id="actInput" type="text"
+           placeholder="M2S-000123-ABCDE-FGHIJ"
+           autocomplete="off" spellcheck="false" maxlength="32">
+
+    <div class="act-actions">
+      <button type="button" class="btn btn-primary" id="actSubmit">激活</button>
+    </div>
+    <p class="modal-note" id="actNote"></p>
+
+    <div class="act-machine">
+      <span>我的机器码</span>
+      <code id="actMachine">—</code>
+      <button type="button" class="link-btn" id="actCopy">复制</button>
+    </div>
+  </div>
+</div>
+
+<footer class="foot">
+  <span>music2score v0.1</span>
+  <span>识别层可插拔：pYIN 单旋律 → basic-pitch 多声部 → demucs 音源分离</span>
+</footer>
+
+<script src="/scripts/pwa.js"></script>
+<script src="/scripts/main.js"></script>
+</body>
+</html>

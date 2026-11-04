@@ -1,0 +1,35 @@
+{
+  "id": "/",
+  "name": "music2score · 音频转谱工作台",
+  "short_name": "m2score",
+  "description": "上传音乐，自动转成五线谱、简谱与吉他六线谱。",
+  "lang": "zh-CN",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#14120f",
+  "theme_color": "#14120f",
+  "categories": ["music", "productivity", "education"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "新建转谱",
+      "short_name": "转谱",
+      "url": "/?action=new",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "手机版安装",
+      "short_name": "安装",
+      "url": "/install",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

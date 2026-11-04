@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>music2score · 手机版安装</title>
+<meta name="description" content="把 music2score 装到手机上：安卓与 iPhone 都支持，无需应用商店。">
+<meta name="theme-color" content="#14120f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="m2score">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="stylesheet" href="/styles/fonts.css">
+<link rel="stylesheet" href="/styles/tokens.css">
+<link rel="stylesheet" href="/styles/base.css">
+<link rel="stylesheet" href="/styles/install.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">m2s</span>
+    <div>
+      <h1>music2score</h1>
+      <p class="brand-sub">手机版 · 安装中心</p>
+    </div>
+  </div>
+  <a class="btn btn-ghost btn-sm" href="/">返回工作台 ←</a>
+</header>
+
+<main>
+
+  <!-- ============ Hero：标题 + 手机模型 ============ -->
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="kicker reveal in">Mobile · PWA 手机版</p>
+      <h2 class="hero-title reveal in" data-delay="1">把乐谱，<br>装进口袋。</h2>
+      <p class="hero-sub reveal in" data-delay="2">
+        安卓与 iPhone 都可以安装，<strong>不需要应用商店</strong>——
+        用手机浏览器打开下面这个地址，一次添加，桌面图标直达，全屏运行。
+      </p>
+      <p class="hero-hint num reveal in" data-delay="3" id="heroHint" aria-live="polite"></p>
+      <div class="hero-cta reveal in" data-delay="4">
+        <a class="btn btn-solid" href="#android">安卓版</a>
+        <a class="btn btn-ghost" href="#ios">iPhone 版</a>
+      </div>
+    </div>
+
+    <div class="phone-wrap reveal in" data-delay="2" aria-hidden="true">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-cam"></div>
+          <div class="phone-statusbar"><span>9:41</span><span class="sb-dots">●●●</span></div>
+          <div class="phone-appbar"><i></i><span>m2score</span><i></i></div>
+          <div class="phone-sheet">
+            <div class="ph-title">小星星</div>
+            <div class="ph-key">1=C　4/4　♩=118</div>
+            <div class="ph-line">
+              <span>1</span><span>1</span><span>5</span><span>5</span><span>6</span><span>6</span><span>5</span>
+            </div>
+            <div class="ph-line">
+              <span>4</span><span>4</span><span>3</span><span>3</span><span>2</span><span>2</span><span>1</span>
+            </div>
+          </div>
+          <div class="phone-actions"><b>五线谱</b><b class="on">简谱</b><b>六线谱</b></div>
+          <div class="phone-home"></div>
+        </div>
+      </div>
+      <div class="phone-shadow" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ============ 扫码区（纸张） ============ -->
+  <section class="qr-card" aria-labelledby="qrTitle">
+    <div class="qr-left">
+      <img id="qrImg" src="/api/qr?text=loading" alt="指向本页的二维码" width="168" height="168">
+      <p class="qr-caption">手机扫一扫<br>直达本页</p>
+    </div>
+    <div class="qr-right">
+      <h3 class="block-title" id="qrTitle">扫码安装</h3>
+      <ol class="qr-steps">
+        <li>手机与这台电脑连<strong>同一个 Wi-Fi</strong>；</li>
+        <li>用手机浏览器扫左侧二维码，或在地址栏输入：</li>
+      </ol>
+      <div class="url-line">
+        <code class="num" id="lanUrl">正在获取局域网地址…</code>
+        <button type="button" class="btn btn-sm" id="copyBtn">复制</button>
+      </div>
+      <p class="qr-note">
+        手机打不开？确认电脑端服务正在运行，且路由器没有开启「AP 隔离」。
+        这是一台本地服务，<strong>请仅在可信局域网内使用</strong>。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 双平台 ============ -->
+  <section class="platforms">
+
+    <!-- 安卓 -->
+    <article class="plat-card" id="card-android">
+      <span class="reco-badge" id="badge-android" hidden>推荐给你</span>
+      <header class="plat-head">
+        <span class="plat-mark" aria-hidden="true">A</span>
+        <div>
+          <h3>Android 手机版</h3>
+          <p class="plat-sub">Chrome / Edge · PWA 安装 · 全屏运行</p>
+        </div>
+      </header>
+
+      <ol class="steps">
+        <li><i>01</i><div><b>打开页面</b>用手机浏览器输入上方地址，或直接扫码。</div></li>
+        <li><i>02</i><div><b>点「安装」</b>Chrome 会弹出安装确认；没有弹出就点右上角 <em>⋮</em> → 「添加到主屏幕 / 安装应用」。</div></li>
+        <li><i>03</i><div><b>桌面直达</b>主屏幕出现 m2score 图标，打开即全屏，无浏览器地址栏。</div></li>
+      </ol>
+
+      <button type="button" class="btn btn-solid btn-wide" id="btnAndroidInstall" disabled>
+        立即安装（Chrome 弹窗确认）
+      </button>
+
+      <div class="native-box" id="dl-android-native" hidden>
+        <h4>原生 APK 安装包</h4>
+        <p class="native-meta num"></p>
+        <a class="btn btn-ghost btn-wide" download>下载 APK</a>
+      </div>
+    </article>
+
+    <!-- iPhone -->
+    <article class="plat-card" id="card-ios">
+      <span class="reco-badge" id="badge-ios" hidden>推荐给你</span>
+      <header class="plat-head">
+        <span class="plat-mark" aria-hidden="true">iOS</span>
+        <div>
+          <h3>iPhone / iPad 版</h3>
+          <p class="plat-sub">必须用 Safari · 添加到主屏幕</p>
+        </div>
+      </header>
+
+      <ol class="steps">
+        <li><i>01</i><div><b>用 Safari 打开</b>iOS 只允许 Safari 安装主屏幕应用，微信里请先「在浏览器打开」。</div></li>
+        <li><i>02</i><div><b>点分享按钮</b>底部中间的 <em>⬆</em>（分享）→ 向下滑找到「添加到主屏幕」。</div></li>
+        <li><i>03</i><div><b>确认添加</b>命名后点「添加」，桌面出现图标，打开即全屏。</div></li>
+      </ol>
+
+      <button type="button" class="btn btn-solid btn-wide" id="btnIosOpen">用 Safari 打开手机版</button>
+
+      <div class="native-box" id="dl-ios-native" hidden>
+        <h4>App Store / TestFlight</h4>
+        <p class="native-meta num"></p>
+        <a class="btn btn-ghost btn-wide" target="_blank" rel="noopener">前往下载</a>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============ 说明：编辑风规则线排版 ============ -->
+  <section class="compare" aria-labelledby="cmpTitle">
+    <h3 class="block-title" id="cmpTitle">关于安装方式</h3>
+    <div class="compare-row">
+      <span class="cmp-k">安装方式</span>
+      <span class="cmp-v"><b>PWA（当前）</b>添加到主屏幕</span>
+      <span class="cmp-v"><b>原生包（可选）</b>APK / App Store</span>
+    </div>
+    <div class="compare-row">
+      <span class="cmp-k">转谱计算</span>
+      <span class="cmp-v">在电脑端完成，手机上传即可</span>
+      <span class="cmp-v">同左</span>
+    </div>
+    <div class="compare-row">
+      <span class="cmp-k">离线</span>
+      <span class="cmp-v">界面可离线打开，转谱需连接服务</span>
+      <span class="cmp-v">取决于打包配置</span>
+    </div>
+    <div class="compare-row">
+      <span class="cmp-k">更新</span>
+      <span class="cmp-v">刷新页面即最新版，无需重新安装</span>
+      <span class="cmp-v">需重新分发安装包</span>
+    </div>
+    <div class="compare-row">
+      <span class="cmp-k">状态</span>
+      <span class="cmp-v num" id="pwaStatus">✓ 已就绪</span>
+      <span class="cmp-v num" id="nativeStatus">未发布（downloads.json 可配置）</span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span>music2score v0.1</span>
+  <span>PWA 图标与安装能力随 manifest 自动生效</span>
+</footer>
+
+<script src="/scripts/pwa.js"></script>
+<script src="/scripts/install.js"></script>
+</body>
+</html>
