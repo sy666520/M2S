@@ -87,10 +87,10 @@
   initTabs(".tab", "aria-controls");
   initTabs(".ptab", "aria-controls");
 
-  // 安装页：支持 #windows / #mac / #source 锚点直接定位到对应平台
+  // 安装页：支持 #windows / #mac 锚点直接定位到对应平台
   if (document.querySelector(".ptab")) {
     var hash = (location.hash || "").replace("#", "");
-    var anchorMap = { windows: "pt-win", win: "pt-win", mac: "pt-mac", linux: "pt-mac", source: "pt-src" };
+    var anchorMap = { windows: "pt-win", win: "pt-win", mac: "pt-mac", linux: "pt-mac" };
     var targetId = anchorMap[hash];
     if (targetId) {
       var target = document.getElementById(targetId);
