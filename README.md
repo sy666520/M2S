@@ -2,6 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+**产品主页（安装指南）**：https://sy666520.github.io/M2S/ · [安装页](https://sy666520.github.io/M2S/install.html)
+
 一个**纯本地运行**的 Web 应用：上传一段音频（或粘贴抖音 / B 站等视频链接），自动识别旋律，
 生成**五线谱、简谱、吉他六线谱**，可试听核对、在线人工校对，并导出 MIDI / MusicXML。
 

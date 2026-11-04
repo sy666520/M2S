@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>页面走丢了 · music2score</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles/site.css">
+<style>
+  .box {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    margin: 18vh auto;
+    padding: 0 var(--gut);
+    text-align: center;
+  }
+  .box .code404 {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+  }
+  .box h1 {
+    font-family: var(--display);
+    font-size: clamp(30px, 6vw, 46px);
+    margin: 16px 0 0;
+  }
+  .box p { color: var(--muted); margin: 14px 0 28px; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <p class="code404">404 · NOT FOUND</p>
+    <h1>这一页没有谱。</h1>
+    <p>地址可能写错了，或者页面搬走了。</p>
+    <a class="btn btn-ghost" href="./">回到首页</a>
+  </div>
+</body>
+</html>
