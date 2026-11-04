@@ -876,6 +876,26 @@ h1, h2, h3 { font-weight: 500; margin: 0; line-height: 1.15; }
   .gallery figure.wide { grid-column: auto; }
   .tab, .ptab { padding: 0 14px; font-size: 13.5px; }
   .closing { border-radius: 14px; }
+
+  /* 手机端截图：原图是"左侧栏 + 右侧谱面"的桌面布局，
+     整图缩进屏宽后谱面只剩一条。这里放大到 140% 并左移，
+     让 26%~98% 的谱面区域正好铺满屏宽，左侧栏移出画面。 */
+  .shot-frame { overflow: hidden; }
+  .shot-frame img,
+  .paper-shot img {
+    width: 140%;
+    height: auto;
+    max-width: none;
+    margin-left: -36%;
+    /* 原截图谱面下方约两成为深色空白，一并裁掉 */
+    margin-bottom: -18%;
+  }
+  .gallery img {
+    width: 140%;
+    height: auto;
+    max-width: none;
+    margin-left: -36%;
+  }
 }
 
 @media (max-width: 420px) {
