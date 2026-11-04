@@ -64,34 +64,33 @@
         <li>
           <span class="num">01</span>
           <div>
-            <b>装 Python 3.10</b>
-            <p>到 python.org 下载 3.10（<em>不要用 3.13</em>，torch 与 demucs 的轮子还不齐），安装时勾选 “Add python.exe to PATH”。</p>
+            <b>下载安装包</b>
+            <p>Windows 桌面版 <em>M2S-win64.zip</em>（约 770MB，内置 CREPE 与 demucs 全部模型权重，装好即用、离线可跑）。</p>
+            <div class="code"><button class="copy" type="button" aria-label="复制">⧉</button>https://github.com/sy666520/M2S/releases/latest</div>
           </div>
         </li>
         <li>
           <span class="num">02</span>
           <div>
-            <b>获取程序</b>
-            <p>有 Git 的话直接克隆；没有就在项目主页下载 ZIP 解压。</p>
-            <div class="code"><button class="copy" type="button" aria-label="复制">⧉</button>git clone https://github.com/sy666520/M2S.git
-cd M2S/music2score</div>
+            <b>解压到任意目录</b>
+            <p>右键 ZIP → 全部解压。解压后约 1.4GB，建议放在有 4GB 空闲的磁盘；<em>不要</em>放进需要管理员权限的系统目录。</p>
           </div>
         </li>
         <li>
           <span class="num">03</span>
           <div>
-            <b>装依赖</b>
-            <p>首次会下载 PyTorch，约 2GB，视网络情况 5–20 分钟。有 NVIDIA 显卡的会自动用 CUDA 版本。</p>
-            <div class="code"><button class="copy" type="button" aria-label="复制">⧉</button>py -3.10 -m pip install -r requirements.txt</div>
+            <b>双击 M2S.exe</b>
+            <p>首次启动加载音频引擎，通常 10 秒内出窗口。所有计算都在本机进行，音频不会上传。</p>
           </div>
         </li>
         <li>
           <span class="num">04</span>
           <div>
-            <b>启动</b>
-            <p>服务起来后浏览器打开 <em>http://127.0.0.1:8177</em> 就是完整工作台。想要独立窗口（无地址栏），改跑桌面壳。</p>
-            <div class="code"><button class="copy" type="button" aria-label="复制">⧉</button>py -3.10 -m uvicorn backend.main:app --port 8177
-:: 或独立窗口版
+            <b>装不了包？从源码跑</b>
+            <p>安装包跑不起来的机器（如缺 WebView2 的旧系统），可以装 Python 3.10 后从源码运行：</p>
+            <div class="code"><button class="copy" type="button" aria-label="复制">⧉</button>git clone https://github.com/sy666520/M2S.git
+cd M2S/music2score
+py -3.10 -m pip install -r requirements.txt
 py -3.10 desktop/app.py</div>
           </div>
         </li>
@@ -103,15 +102,15 @@ py -3.10 desktop/app.py</div>
           <ul>
             <li><strong>Windows 10/11 64 位</strong></li>
             <li>内存 <strong>8GB 起</strong>（分离模型吃内存）</li>
-            <li>磁盘 <strong>6GB 空闲</strong>（依赖 + 模型权重）</li>
-            <li>ffmpeg：已在依赖里自带，无需另装</li>
+            <li>磁盘 <strong>4GB 空闲</strong>（安装包解压后约 1.4GB）</li>
+            <li>无需装 Python：运行所需环境已打进包里</li>
           </ul>
         </div>
         <div class="side-card paper">
-          <h3>先跑一遍自测</h3>
+          <h3>被杀毒软件拦了？</h3>
           <p style="color:var(--ink-soft);font-size:14px;margin:10px 0 0">
-            装完不确定环境对不对？跑 <code style="font-family:var(--mono)">py -3.10 tests/smoke.py</code>，
-            几十秒内会生成一份示例谱，出谱即成功。
+            PyInstaller 打的包没有厂商签名，个别杀软会误报。添加信任即可；
+            不放心可以从源码运行，代码全部开源（MIT）。
           </p>
         </div>
       </aside>

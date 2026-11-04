@@ -1,6 +1,7 @@
 # 核心依赖（Python 3.10+）
 fastapi
 uvicorn
+python-multipart
 numpy
 scipy
 librosa

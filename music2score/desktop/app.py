@@ -25,6 +25,13 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
+# PyInstaller windowed 模式（console=False）下 stdout/stderr 是 None，
+# print / uvicorn 日志会直接 AttributeError —— 引导前先补上空流
+if sys.stdout is None:
+    sys.stdout = open(os.devnull, "w", encoding="utf-8")
+if sys.stderr is None:
+    sys.stderr = open(os.devnull, "w", encoding="utf-8")
+
 SPLASH = """<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>music2score</title>
 <style>

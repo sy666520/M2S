@@ -8,8 +8,11 @@ htdemucs 产出四轨：drums / bass / other / vocals。
 主旋律优先取 vocals；若人声轨能量过低（纯伴奏、或分离结果为空），
 自动退到 other 轨（通常承载主奏乐器），而不是返回空谱。
 """
-from typing import List, Optional, Callable
+import os
+import shutil
+import sys
 import threading
+from typing import List, Optional, Callable
 
 import numpy as np
 
@@ -65,6 +68,31 @@ _SEPARATORS: dict = {}
 _SEP_LOCK = threading.Lock()
 
 
+def _ensure_bundled_weights() -> None:
+    """把随安装包分发的 demucs 权重拷进用户 torch hub 缓存。
+
+    demucs 的权重默认从 HuggingFace 下载，国内网络经常连不上；
+    PyInstaller 包里带着 model_cache/（见 desktop/m2s.spec），首次
+    运行时同步拷到 ~/.cache/torch/hub/checkpoints 即可离线使用。
+    """
+    if not getattr(sys, "frozen", False):
+        return
+    src = os.path.join(getattr(sys, "_MEIPASS", ""), "model_cache")
+    if not os.path.isdir(src):
+        return
+    try:
+        import torch
+        dst = os.path.join(torch.hub.get_dir(), "checkpoints")
+        os.makedirs(dst, exist_ok=True)
+        for f in os.listdir(src):
+            d = os.path.join(dst, f)
+            if not os.path.exists(d):
+                shutil.copyfile(os.path.join(src, f), d)
+    except Exception:
+        # 拷贝失败不致命：联网的机器仍可自行下载
+        pass
+
+
 def _get_separator(model: str, device: str, shifts: int):
     """按 (模型, 设备, shifts) 复用 Separator。
 
@@ -73,6 +101,7 @@ def _get_separator(model: str, device: str, shifts: int):
     """
     from demucs.api import Separator
 
+    _ensure_bundled_weights()
     key = (model, device, shifts)
     with _SEP_LOCK:
         sep = _SEPARATORS.get(key)

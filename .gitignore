@@ -24,3 +24,7 @@ music2score/data/out/
 
 # ---- 流行歌测试产物（含版权音频，绝不入库）----
 pop_test_results/
+
+# ---- PyInstaller 构建产物（1.4GB，随 Release 分发不入库）----
+music2score/dist/
+music2score/build/

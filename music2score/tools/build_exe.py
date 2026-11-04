@@ -54,25 +54,40 @@ def build() -> None:
     subprocess.run(cmd, cwd=ROOT, check=True)
 
 
+# 业务代码目录名：这些包的 .py 出现在散文件里才算源码泄露。
+# torch / librosa / sklearn 等第三方库自带 .py/.pyi 属正常（它们本来就以源码分发）。
+OURS = ("backend", "desktop", "tools", "tests")
+
+
 def verify_tree() -> None:
-    step("校验产物不含源码")
+    step("校验产物不含业务源码")
     bad = []
     total = 0
     for base, dirs, files in os.walk(os.path.join(DIST, "M2S")):
-        dirs[:] = [d for d in dirs if d not in {"__pycache__", "tests"}]
+        dirs[:] = [d for d in dirs if d not in {"__pycache__"}]
         for f in files:
             p = os.path.join(base, f)
             total += os.path.getsize(p)
-            if f.endswith((".py", ".pyw", ".pyi")):
-                bad.append(os.path.relpath(p, DIST))
+            rel = os.path.relpath(p, DIST).replace("\\", "/")
+            if f.endswith((".py", ".pyw")):
+                parts = parts_of(rel)
+                # _internal 下的业务目录，或 _internal 顶层散 .py（我们的模块）都算泄露
+                if parts[0] == "M2S" and "_internal" in parts[:2]:
+                    inner = parts[2:] if parts[1] == "_internal" else parts[1:]
+                    if not inner or inner[0] in OURS:
+                        bad.append(rel)
     size = total / 1e6
     print(f"产物 {size:.0f} MB")
     if bad:
-        print("发现源码文件（前 10 个）：")
+        print("发现业务源码文件（前 10 个）：")
         for b in bad[:10]:
             print("  ", b)
-        sys.exit("产物里仍有 .py 源码，已中止")
-    print("无 .py 源码 ✓")
+        sys.exit("产物里有业务 .py 源码，已中止")
+    print("业务源码已封入 PYZ，无散落 .py ✓")
+
+
+def parts_of(rel: str) -> list:
+    return rel.split("/")
 
 
 def smoke() -> None:

@@ -10,7 +10,8 @@
 import os
 import sys
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# PyInstaller 执行 spec 时 __file__ 未定义，用注入的 SPECPATH（= desktop/ 目录）
+ROOT = os.path.dirname(os.path.abspath(SPECPATH))
 sys.path.insert(0, ROOT)
 
 datas = [
@@ -19,6 +20,30 @@ datas = [
     (os.path.join(ROOT, "data", "billing.json"), "data"),
     (os.path.join(ROOT, "..", "LICENSE"), "."),
 ]
+
+# Verovio 的字体/MEI 数据（SMuFL Bravura 等）不是代码，PyInstaller 不会自动带上，
+# 缺了它五线谱渲染会报「资源路径 …verovio\data」错误 —— 必须显式打包
+import verovio  # noqa: E402
+_verovio_dir = os.path.dirname(verovio.__file__)
+datas.append((os.path.join(_verovio_dir, "data"), "verovio/data"))
+
+# demucs 的模型签名/描述文件（remote/files.txt、*.yaml）同样不会自动带上
+import demucs  # noqa: E402
+_demucs_dir = os.path.dirname(demucs.__file__)
+datas.append((os.path.join(_demucs_dir, "remote"), "demucs/remote"))
+
+# CREPE 权重（full.pth 85MB / tiny.pth 2MB）随包分发：核心引擎离线可用
+import torchcrepe  # noqa: E402
+_torchcrepe_dir = os.path.dirname(torchcrepe.__file__)
+datas.append((os.path.join(_torchcrepe_dir, "assets"), "torchcrepe/assets"))
+
+# demucs 分离模型权重（htdemucs + htdemucs_ft 共约 400MB）。
+# 官方下载源 HuggingFace 在国内经常不可达，随包分发 + 首次运行拷入
+# 用户 torch hub 缓存（见 backend/transcribe/song.py::_ensure_bundled_weights）。
+# 注意：这依赖构建机上的 ~/.cache/torch/hub/checkpoints 已有全部权重。
+_hub = os.path.expanduser("~/.cache/torch/hub/checkpoints")
+if os.path.isdir(_hub) and os.listdir(_hub):
+    datas.append((_hub, "model_cache"))
 
 hiddenimports = [
     "uvicorn.logging",
