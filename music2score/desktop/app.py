@@ -70,6 +70,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="music2score 桌面版")
     ap.add_argument("--port", type=int, default=0, help="0 = 自动挑空闲端口")
     ap.add_argument("--debug", action="store_true", help="打开开发者工具")
+    ap.add_argument("--headless", action="store_true", help="只起服务不开窗口（自测用）")
     args = ap.parse_args()
 
     os.environ["M2S_DESKTOP"] = "1"
@@ -85,6 +86,17 @@ def main() -> int:
     threading.Thread(target=server.run, daemon=True, name="uvicorn").start()
 
     url = f"http://127.0.0.1:{port}/"
+
+    if args.headless:
+        # 打包自测：只把服务拉起来，确认依赖与静态资源都在包里
+        ok = wait_ready(url + "api/meta")
+        print(("READY " if ok else "FAILED ") + url, flush=True)
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            server.should_exit = True
+        return 0 if ok else 3
 
     import webview
 

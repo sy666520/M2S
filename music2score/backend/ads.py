@@ -18,13 +18,14 @@ import threading
 import time
 from typing import Optional
 
+from . import paths
+
 _LOCK = threading.Lock()
 _STATS_PATH: Optional[str] = None
 _REMOTE_TTL = 600
 _remote_cache: dict = {"at": 0.0, "data": None}
 
-_BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_ADS_FILE = os.path.join(_BASE, "desktop", "ads", "ads.json")
+_ADS_FILE = paths.ADS_FILE
 
 _FALLBACK = {
     "version": 0,
@@ -105,7 +106,7 @@ def public_list() -> dict:
 def _stats_path() -> str:
     global _STATS_PATH
     if _STATS_PATH is None:
-        d = os.path.join(_BASE, "data")
+        d = paths.ensure_data_dir()
         os.makedirs(d, exist_ok=True)
         _STATS_PATH = os.path.join(d, "ads_stats.json")
     return _STATS_PATH

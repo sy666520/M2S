@@ -32,11 +32,13 @@ from .renderers.tab import render_tab_pages
 from .renderers.musicxml import build_musicxml
 from .renderers.midi import build_midi
 
+from . import paths as app_paths
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(BASE_DIR)
-DATA_DIR = os.path.join(ROOT_DIR, "data")
+ROOT_DIR = app_paths.PKG_DIR
+DATA_DIR = app_paths.ensure_data_dir()
 UPLOAD_DIR = os.path.join(DATA_DIR, "uploads")
-FRONTEND_DIR = os.path.join(ROOT_DIR, "frontend")
+FRONTEND_DIR = app_paths.FRONTEND_DIR
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 ALLOWED_EXTS = {".wav", ".mp3", ".m4a", ".aac", ".flac", ".ogg", ".opus", ".wma", ".aiff", ".aif"}

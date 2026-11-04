@@ -29,6 +29,8 @@ import platform
 import threading
 import time
 import uuid
+
+from . import paths
 from datetime import date
 from typing import Optional, Tuple
 
@@ -49,8 +51,7 @@ _BILLING_CACHE: dict = {"mtime": -1.0, "enabled": False}
 # ---------------------------------------------------------------- 商业模式开关
 
 def _billing_path() -> str:
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(root, "data", "billing.json")
+    return paths.data_path("billing.json")
 
 
 def billing_enabled() -> bool:
@@ -81,10 +82,7 @@ def billing_enabled() -> bool:
 def _path() -> str:
     global _STATE_PATH
     if _STATE_PATH is None:
-        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        d = os.path.join(root, "data")
-        os.makedirs(d, exist_ok=True)
-        _STATE_PATH = os.path.join(d, "license.json")
+        _STATE_PATH = paths.data_path("license.json")
     return _STATE_PATH
 
 

@@ -25,6 +25,8 @@ import socket
 import subprocess
 import time
 from typing import Callable, Optional
+
+from . import paths
 from urllib.parse import urlparse
 
 from .audio import ffmpeg_path
@@ -124,8 +126,7 @@ def browser_ready() -> bool:
 
 def cookie_file() -> Optional[str]:
     """可选：项目 data/cookies.txt（Netscape 格式），给需要登录的站点用。"""
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = os.path.join(root, "data", "cookies.txt")
+    path = paths.data_path("cookies.txt")
     return path if os.path.exists(path) else None
 
 

@@ -18,3 +18,9 @@ music2score/data/out/
 
 # ---- 本地工作助手目录 ----
 .workbuddy/
+
+# ---- 打包构建目录（含 CPU torch venv）----
+.build/
+
+# ---- 流行歌测试产物（含版权音频，绝不入库）----
+pop_test_results/
