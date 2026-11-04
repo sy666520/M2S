@@ -55,8 +55,8 @@
     "Source Han Sans SC", "Noto Sans CJK SC", system-ui, sans-serif;
   --mono: "IBM Plex Mono", "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
 
-  --wrap: 1140px;
-  --gut: clamp(20px, 5vw, 40px);
+  --wrap: 1400px;
+  --gut: clamp(20px, 4vw, 48px);
   --radius: 14px;
   --radius-sm: 8px;
   --shadow-lg: 0 40px 90px -30px rgba(0, 0, 0, 0.75);
@@ -239,7 +239,7 @@ h1, h2, h3 { font-weight: 500; margin: 0; line-height: 1.15; }
 
 .section-title {
   font-family: var(--display);
-  font-size: clamp(28px, 4.4vw, 44px);
+  font-size: clamp(28px, 4vw, 50px);
   letter-spacing: 0.01em;
   margin: 14px 0 0;
 }
@@ -247,7 +247,7 @@ h1, h2, h3 { font-weight: 500; margin: 0; line-height: 1.15; }
   margin: 14px 0 0;
   max-width: 56ch;
   color: var(--text-dim);
-  font-size: clamp(15px, 1.6vw, 17px);
+  font-size: clamp(15px, 1.6vw, 18px);
 }
 
 .section { padding: clamp(64px, 10vw, 112px) 0; position: relative; }
@@ -267,8 +267,8 @@ h1, h2, h3 { font-weight: 500; margin: 0; line-height: 1.15; }
 }
 .hero-title {
   font-family: var(--display);
-  font-size: clamp(36px, 5vw, 56px);
-  line-height: 1.12;
+  font-size: clamp(36px, 4.6vw, 68px);
+  line-height: 1.1;
   letter-spacing: -0.01em;
   margin: 18px 0 0;
   text-wrap: balance;
@@ -290,7 +290,7 @@ h1, h2, h3 { font-weight: 500; margin: 0; line-height: 1.15; }
 }
 .hero-lead {
   margin: 22px 0 0;
-  font-size: clamp(15px, 1.7vw, 17.5px);
+  font-size: clamp(15px, 1.5vw, 19px);
   color: var(--text-dim);
   max-width: 46ch;
 }
